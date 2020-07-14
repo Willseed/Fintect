@@ -21,7 +21,7 @@ def init():
     return year_list, twse_list, tpex_list
 
 def driver_open():
-    browser = webdriver.Chrome(main.CHROME_DRIVER_EXE)
+    browser = webdriver.Chrome()
     browser.get('http://mops.twse.com.tw/mops/web/t05st01')
     return browser
 
@@ -190,10 +190,12 @@ def get_year_message(Listed):
                     excel_name = '1.xlsx'
                     window_before = browser.window_handles[0] #獲取來源網頁資訊
                     btn_details = browser.find_elements_by_xpath('//*[@id="t05st01_fm"]/table/tbody/tr') #詳細資料按鈕
+                    print(btn_details)
                     for k in range(2, len(btn_details) + 1): #迭代每則重大消息按鈕
                         print('第' + str(k - 1) + '個按鈕')
                         again_data = True
                         x=1
+                        c = 1
                         while(again_data):
                             ChangeToPopUpWindow(k) #改變視窗焦點
                             if(get_data() == False):
@@ -202,14 +204,26 @@ def get_year_message(Listed):
                                 print('Get Data OK!')
                                 again_data = False
                                 d_details = get_data()
+                        #=========================
+
+                        
                         if(k == 2): #判斷是否為首個「詳細資料」按鈕
-                            excel_name = DataToExcel(isFrist, i, j, d_details, excel_name)
+                            # excel_name = DataToExcel(isFrist, i, j, d_details, excel_name)
+                            # print(type(d_details))
+                            with open('123.log', 'w') as f:
+                                f.writelines(json.dumps(d_details)+'\n')
                             isFrist = False
+                            
+                            
                         else:
                             DataToExcel(isFrist, i, j, d_details, excel_name)
+                            
                         predate=input_data2(i,j,d_details,predate,x,k,len(btn_details))
+                        print(c)
                         BackToSourceWindow(window_before)
+                        print(c+1)
                         time.sleep(2) #等待2s 再次搜尋下一年
+                        
                 else:
                     if (browser.find_elements_by_xpath('//*[@id="table01"]/center/h3')):
                         print('該 %s 公開發行公司不繼續公開發行！' % i)
