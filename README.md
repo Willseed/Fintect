@@ -6,8 +6,6 @@
 | --- | --- |
 | Visual Studio Code | [Visual Studio Code] |
 | Python 3.8.3 | [Python 3.8.3] |
-| Git | [Git] |
-| Tortoisegit | [Tortoisegit] |
 
 > 以上軟體都下載最新版本即可
 ---
@@ -38,37 +36,6 @@ Python 3.8.3 (tags/v3.8.3:6f8c832, May 13 2020, 22:20:19) [MSC v.1925 32 bit (In
 Type "help", "copyright", "credits" or "license" for more information.
 >>>
 ```
----
-
-### 安裝Git
-
-1. **若有跳出需要管理員權限，點選<是>**
-2. 點選 \<next\>
-3. **使用預設值** 或 **選擇安裝的路徑** ```例如：C:\Git``` 
-4. 點選 \<next\>
-5. 點選 \<next\>
-6. 點選 \<next\>
-7. 選擇 \<Use Visual Studio Code at Git's default editor\>
-8. 點選 \<next\>
-9. 點選 \<next\>
-10. 點選 \<next\>
-11. 點選 \<next\>
-12. 點選 \<next\>
-13. 點選 \<next\>
-14. 點選 \<next\>
-15. 點選 \<Install\>
-15. 點選 \<Finish\>
----
-
-### Tortoisegit 安裝流程
-
-1. 點選 \<next\>
-2. 點選 \<next\>
-3. 點選 \<next\>
-4. 點選 \<next\>
-5. 點選 \<Install\>
-6. **若有跳出需要管理員權限，點選<是>**
-7. 點選 \<Finish\>
 ---
 
 ## Python模組安裝
