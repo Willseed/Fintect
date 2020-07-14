@@ -1,13 +1,14 @@
 import detect
 import chrome_helper
+import pathlib
 from selenium import webdriver
+
 
 CHROME_PATH = r'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
 CHROME_DRIVER_BASE_URL = r'https://chromedriver.storage.googleapis.com'
-CHROME_DRIVER_FOLDER = r'C:\Users\方塊馬\fintech\Download'
-CHROME_DRIVER_ZIP = r'{}\chromedriver_win32.zip'.format(CHROME_DRIVER_FOLDER)
-CHROME_DRIVER_EXE = r'{}\chromedriver.exe'.format(CHROME_DRIVER_FOLDER)
-CHROME_DRIVER_MAPPING_FILE = r"{}\mapping.json".format(CHROME_DRIVER_FOLDER)
+CHROME_DRIVER_ZIP = 'chromedriver_win32.zip'
+CHROME_DRIVER_EXE = 'chromedriver.exe'
+CHROME_DRIVER_MAPPING_FILE = 'mapping.json'
 
 def check_browser_driver_available():
     # 取得 Chrome 版本
@@ -19,6 +20,7 @@ def check_browser_driver_available():
 
     # 如果版本不對應更新並下載 Chrome Driver
     if chrome_major_ver not in mapping_dict:
+        CHROME_DRIVER_FOLDER = pathlib.Path().absolute()
         # 下載 Chrome Driver
         chrome_helper.download_driver(CHROME_DRIVER_FOLDER, CHROME_DRIVER_BASE_URL, driver_ver)
         # 解壓縮 Chrome Driver
