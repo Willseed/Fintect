@@ -58,10 +58,15 @@ WARNING: You are using pip version 18.1, however version 20.1.1 is available.
 You should consider upgrading via the 'python -m pip install --upgrade pip' command.
 ```
 
-請執行
+請執行以下指令進行更新
 
 ```cmd
 python -m pip install --upgrade pip
+```
+
+安裝相關模組
+```cmd
+pip install -r requirements.txt
 ```
 
 License
