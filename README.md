@@ -5,7 +5,7 @@
 | 軟體名稱 | 下載連結 |
 | --- | --- |
 | Visual Studio Code | [Visual Studio Code] |
-| Python 3.8.3 | [Python 3.8.3] |
+| Python 3.6.8 | [Python 3.6.8] |
 
 > 以上軟體都下載最新版本即可
 ---
@@ -22,9 +22,9 @@
 9. 點選 <完成> 打開 Visual Studio Code
 ---
 
-### Python 3.8.3 安裝流程
+### Python 3.6.8 安裝流程
 
-1. 將 ```Add Python 3.8 To PATH``` 打勾
+1. 將 ```Add Python 3.6 To PATH``` 打勾
 2. 點選 \<Install Now\>
 3. **若有跳出需要管理員權限，點選<是>**
 
@@ -32,7 +32,7 @@
 
 打開命令提示字元後，輸入```python``` 若出現以下畫面即為安裝成功
 ```cmd
-Python 3.8.3 (tags/v3.8.3:6f8c832, May 13 2020, 22:20:19) [MSC v.1925 32 bit (Intel)] on win32
+Python 3.6.8 (tags/v3.6.8:3c6b436a57, Dec 24 2018, 00:16:47) [MSC v.1916 64 bit (AMD64)] on win32
 Type "help", "copyright", "credits" or "license" for more information.
 >>>
 ```
@@ -52,9 +52,9 @@ pip list
 ```cmd
 Package    Version
 ---------- -------
-pip        19.2.3
+pip        18.1
 setuptools 41.2.0
-WARNING: You are using pip version 19.2.3, however version 20.1.1 is available.
+WARNING: You are using pip version 18.1, however version 20.1.1 is available.
 You should consider upgrading via the 'python -m pip install --upgrade pip' command.
 ```
 
@@ -69,6 +69,6 @@ License
 MIT
 
    [Visual Studio Code]: <https://code.visualstudio.com/>
-   [Python 3.8.3]: <https://www.python.org/downloads/>
+   [Python 3.6.8]: <https://www.python.org/ftp/python/3.6.8/python-3.6.8-amd64.exe>
    [Tortoisegit]: <https://tortoisegit.org/>
    [Git]: <https://gitforwindows.org/>
