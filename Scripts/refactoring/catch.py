@@ -86,7 +86,10 @@ def get_year_message():
     company_keys = stock_Id_TWSE_Dictionaryed.keys()
     for company in company_keys:
         path = company+str(year_range_list[0])+'-'+str(year_range_list[-1])
-        os.mkdir(path)
+        if os.path.isdir(path):
+            continue
+        else:
+            os.mkdir(path)
         input_text(stock_Id_TWSE_Dictionaryed[company], '//*[@id="co_id"]') #公司代號或簡稱
         for j in year_range_list:
             input_text(j, '//*[@id="year"]') #年度
@@ -102,7 +105,7 @@ def get_year_message():
                     isFrist = True
                     window_before = browser.window_handles[0] #獲取來源網頁資訊
                     btn_details = browser.find_elements_by_xpath('//*[@id="t05st01_fm"]/table/tbody/tr') #詳細資料按鈕
-                    for k in range(2, len(btn_details) + 1): #迭代每則重大消息按鈕
+                    for k in range(2, len(btn_details) + 1): #迭代每則重大消息按鈕 
                         print('第' + str(k - 1) + '個按鈕')
                         again_data = True
                         while(again_data):
