@@ -125,7 +125,7 @@ def get_year_message():
                         #===========================    
                 else:
                     if (browser.find_elements_by_xpath('//*[@id="table01"]/center/h3')):
-                        print('該 %s 公開發行公司不繼續公開發行！' % i)
+                        print('該 %s 公開發行公司不繼續公開發行！' % company)
                         break
                     else:
                         time.sleep(10) #等待10s
