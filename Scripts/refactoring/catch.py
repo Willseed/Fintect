@@ -1,11 +1,14 @@
 import time
 import json
+import os
+import main
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-import os
+
 
 def init():
     year_list = [i for i in range(92, 108)]
@@ -38,7 +41,8 @@ def BackToSourceWindow(window_before):
 
 def WebWaitXpath(xpath):
     try:
-        WebDriverWait(browser, 10).until(ec.visibility_of_element_located((By.XPATH, xpath)))
+        wait = WebDriverWait(browser, 10)
+        wait.until(ec.visibility_of_element_located((By.XPATH, xpath)))
         return True
     except Exception as e:
         print(e)
@@ -124,6 +128,7 @@ def get_year_message():
 
 
 if __name__ == '__main__':
+    main.check_browser_driver_available()
     browser = driver_open()
     year_range_list, stock_Id_TWSE_Dictionaryed = init()
     get_year_message()
