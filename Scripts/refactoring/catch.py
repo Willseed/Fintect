@@ -36,10 +36,9 @@ def BackToSourceWindow(window_before):
     browser.close() #關閉彈出視窗
     browser.switch_to_window(window_before) #將焦點切回原先視窗
 
-def WebWaitXpath(s):
+def WebWaitXpath(xpath):
     try:
-        xpath = s
-        WebDriverWait(browser, 2).until(ec.visibility_of_element_located((By.XPATH, xpath)))
+        WebDriverWait(browser, 10).until(ec.visibility_of_element_located((By.XPATH, xpath)))
         return True
     except Exception as e:
         print(e)
@@ -81,9 +80,7 @@ def get_year_message():
     company_keys = stock_Id_TWSE_Dictionaryed.keys()
     for company in company_keys:
         path = company+str(year_range_list[0])+'-'+str(year_range_list[-1])
-        if os.path.isdir(path):
-            continue
-        else:
+        if not os.path.isdir(path):
             os.mkdir(path)
         input_text(stock_Id_TWSE_Dictionaryed[company], '//*[@id="co_id"]') #公司代號或簡稱
         for j in year_range_list:
