@@ -44,11 +44,6 @@ def WebWaitXpath(s):
     except Exception as e:
         print(e)
 
-def ChangeToPopUpWindow(index):
-    browser.find_element_by_xpath('//*[@id="t05st01_fm"]/table/tbody/tr[' + str(index) + ']/td[6]/input').click()
-    window_after = browser.window_handles[1] #獲取彈出視窗資訊
-    browser.switch_to_window(window_after) #焦點切換到彈出視窗
-
 def ListToDict(length, l_title, l_content):
     d_details = {}
     for i in range(0, length):
