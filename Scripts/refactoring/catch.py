@@ -98,11 +98,9 @@ def get_year_message():
             btn_search.click()
             time.sleep(3) #等待3s
             again = True
-            predate=''
             while(again):
                 if(WebWaitXpath('//*[@id="t05st01_fm"]/table/tbody/tr[2]/td[3]')): #等待元件讀取
                     again = False
-                    isFrist = True
                     window_before = browser.window_handles[0] #獲取來源網頁資訊
                     btn_details = browser.find_elements_by_xpath('//*[@id="t05st01_fm"]/table/tbody/tr') #詳細資料按鈕
                     for k in range(2, len(btn_details) + 1): #迭代每則重大消息按鈕 
