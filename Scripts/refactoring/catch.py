@@ -10,9 +10,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 
 
-def init():
+def init(dir: str, filename: str):
     year_list = [i for i in range(92, 108)]
-    with open('../Listed-company/automobile.txt', 'r') as f:
+    path = '../' + dir + '/' + filename
+    with open(path, 'r') as f:
         twse_dictionary = json.loads(f.read())
 
     return year_list, twse_dictionary
@@ -130,6 +131,6 @@ def get_year_message():
 if __name__ == '__main__':
     main.check_browser_driver_available()
     browser = driver_open()
-    year_range_list, stock_Id_TWSE_Dictionaryed = init()
+    year_range_list, stock_Id_TWSE_Dictionaryed = init('Listed-company', 'information.txt')
     get_year_message()
     driver_close(browser)
