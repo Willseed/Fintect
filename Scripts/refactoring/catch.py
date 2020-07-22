@@ -1,7 +1,6 @@
 import time
 import json
 import os
-# import main
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -13,19 +12,23 @@ from selenium.webdriver.support import expected_conditions as ec
 def init(dir: str = None, filename: str = None,company_name: str = None,company_id: int = None,for_one_company = False):
     year_list = [i for i in range(92, 108)]
     if(not for_one_company): 
+        print('清單抓取開始')
         if(dir != None and filename != None):
             path = '../' + dir + '/' + filename
             with open(path, 'r') as f:
                 twse_dictionary = json.loads(f.read())
         else:
-            print('請輸入資料夾名稱與清單檔案名稱')
+            print('請輸入資料夾名稱或清單檔案名稱')
+            driver_close(browser)
             exit()
     else:
+        print('單一公司抓取開始')
         if(company_name != None and company_id != None):
             twse_dictionary = {}
             twse_dictionary[company_name] = company_id
         else:
-            print('請輸入公司名稱與代碼')
+            print('請輸入公司名稱或代碼')
+            driver_close(browser)
             exit()
     return year_list, twse_dictionary
 
@@ -140,12 +143,12 @@ def get_year_message():
 
 
 if __name__ == '__main__':
-    # main.check_browser_driver_available()
     browser = driver_open()
 
-    # year_range_list, stock_Id_TWSE_Dictionaryed = init(dir = 'Listed-company', filename = 'information.txt')
-    year_range_list, stock_Id_TWSE_Dictionaryed = init(company_name = '聯電',company_id = 2303,for_one_company = True)
-    
-    print(stock_Id_TWSE_Dictionaryed)
+    #以下兩行則一開啟使用
+
+    # year_range_list, stock_Id_TWSE_Dictionaryed = init(dir = 'Listed-company', filename = 'information.txt')#清單批次抓取
+    year_range_list, stock_Id_TWSE_Dictionaryed = init(company_name = '聯電',company_id = 2303,for_one_company = True)#單一公司抓取
+
     get_year_message()
     driver_close(browser)
