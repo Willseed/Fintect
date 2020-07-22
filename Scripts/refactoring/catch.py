@@ -10,12 +10,23 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 
 
-def init(dir: str, filename: str):
+def init(dir: str = None, filename: str = None,company_name: str = None,company_id: int = None,for_one_company = False):
     year_list = [i for i in range(92, 108)]
-    path = '../' + dir + '/' + filename
-    with open(path, 'r') as f:
-        twse_dictionary = json.loads(f.read())
-
+    if(not for_one_company): 
+        if(dir != None and filename != None):
+            path = '../' + dir + '/' + filename
+            with open(path, 'r') as f:
+                twse_dictionary = json.loads(f.read())
+        else:
+            print('請輸入資料夾名稱與清單檔案名稱')
+            exit()
+    else:
+        if(company_name != None and company_id != None):
+            twse_dictionary = {}
+            twse_dictionary[company_name] = company_id
+        else:
+            print('請輸入公司名稱與代碼')
+            exit()
     return year_list, twse_dictionary
 
 def driver_open():
@@ -131,6 +142,10 @@ def get_year_message():
 if __name__ == '__main__':
     # main.check_browser_driver_available()
     browser = driver_open()
-    year_range_list, stock_Id_TWSE_Dictionaryed = init('Listed-company', 'information.txt')
+
+    # year_range_list, stock_Id_TWSE_Dictionaryed = init(dir = 'Listed-company', filename = 'information.txt')
+    year_range_list, stock_Id_TWSE_Dictionaryed = init(company_name = '聯電',company_id = 2303,for_one_company = True)
+    
+    print(stock_Id_TWSE_Dictionaryed)
     get_year_message()
     driver_close(browser)
