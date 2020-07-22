@@ -1,7 +1,7 @@
 import time
 import json
 import os
-import main
+# import main
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -129,7 +129,7 @@ def get_year_message():
 
 
 if __name__ == '__main__':
-    main.check_browser_driver_available()
+    # main.check_browser_driver_available()
     browser = driver_open()
     year_range_list, stock_Id_TWSE_Dictionaryed = init('Listed-company', 'information.txt')
     get_year_message()
