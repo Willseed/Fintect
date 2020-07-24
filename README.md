@@ -66,7 +66,7 @@ python -m pip install --upgrade pip
 
 安裝相關模組
 ```cmd
-pip install -r requirements.txt
+pip install selenium
 ```
 
 License
