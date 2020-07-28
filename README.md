@@ -71,23 +71,23 @@ pip install selenium
 
 ## 選項設定說明
 ---
-1. 13行可設定抓取年分(單位為民國年)，數字區間為 ```*期望開始年份*``` 與 ```**期望結束年份+1**``` 以下範例區間為92~109年
+1. 13行可設定抓取年分(單位為民國年)，數字區間為 ```期望開始年份``` 與 ```期望結束年份+1``` 以下範例區間為92~109年
 
 ```python
 year_list = [i for i in range(92, 110)]
 ```
 
-2. 150行若未設定for_one_company選項，預設功能為抓取清單內所有公司，需給予 ```**dir(清單放置資料夾)**``` 與 ```**filename(清單檔名)**``` 參數
+2. 150行若未設定for_one_company選項，預設功能為抓取清單內所有公司，需給予 ```dir(清單放置資料夾)``` 與 ```filename(清單檔名)``` 參數
 ```python
 year_range_list, stock_Id_TWSE_Dictionaryed = init(dir = 'Listed-company', filename = 'information.txt')#清單批次抓取
 ```
 
-3. 151行若設定for_one_company選項為True，功能為抓取單一公司，需給予 ```**company_name(公司名稱，中英皆可)**``` 與 ```**company_id(股票代碼)**``` 參數
+3. 151行若設定for_one_company選項為True，功能為抓取單一公司，需給予 ```company_name(公司名稱，中英皆可)``` 與 ```company_id(股票代碼)``` 參數
 ```python
 year_range_list, stock_Id_TWSE_Dictionaryed = init(company_name = '聯電',company_id = 2303,for_one_company = True)
 ```
 
-4. ```**2.、3.**``` 擇一使用即可
+4. ```2.、3.``` 擇一使用即可
 
 License
 ----
