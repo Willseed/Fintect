@@ -86,7 +86,7 @@ year_range_list, stock_Id_TWSE_Dictionaryed = init(dir = 'Listed-company', filen
 year_range_list, stock_Id_TWSE_Dictionaryed = init(company_name = '聯電',company_id = 2303,for_one_company = True)
 ```
 
-4. 2.、3.擇一使用即可
+4. **2.** 、 **3.** 擇一使用即可
 
 License
 ----
