@@ -76,7 +76,7 @@ pip install selenium
 year_list = [i for i in range(92, 110)]
 ```
 
-2. 150行若未設定for_one_company選項，預設功能為抓取清單內所有公司，需給予**dir(清單放置路徑)**與 **filename(清單檔名)** 參數
+2. 150行若未設定for_one_company選項，預設功能為抓取清單內所有公司，需給予 **dir(清單放置路徑)** 與 **filename(清單檔名)** 參數
 ```python
 year_range_list, stock_Id_TWSE_Dictionaryed = init(dir = 'Listed-company', filename = 'information.txt')#清單批次抓取
 ```
