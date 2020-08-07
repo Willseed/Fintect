@@ -41,6 +41,7 @@ def driver_open():
 
 def driver_close(browser):
     browser.quit()
+    print('瀏覽器已關閉')
 
 def input_text(index, xpath):
     inputbox = browser.find_element_by_xpath(xpath)
@@ -154,3 +155,4 @@ if __name__ == '__main__':
 
     get_year_message()
     driver_close(browser)
+    print('爬蟲完成')
