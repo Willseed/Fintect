@@ -33,7 +33,9 @@ def init(dir: str = None, filename: str = None,company_name: str = None,company_
     return year_list, twse_dictionary
 
 def driver_open():
-    browser = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless")
+    browser = webdriver.Chrome(chrome_options= options)
     browser.get('http://mops.twse.com.tw/mops/web/t05st01')
     return browser
 
