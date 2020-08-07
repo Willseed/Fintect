@@ -10,7 +10,7 @@ from selenium.webdriver.support import expected_conditions as ec
 
 
 def init(dir: str = None, filename: str = None,company_name: str = None,company_id: int = None,for_one_company = False):
-    year_list = [i for i in range(92, 108)]
+    year_list = [i for i in range(90, 108)]
     if(not for_one_company): 
         print('清單抓取開始')
         if(dir != None and filename != None):
@@ -50,6 +50,7 @@ def input_text(index, xpath):
 
 def ChangeToPopUpWindow(index):
     browser.find_element_by_xpath('//*[@id="t05st01_fm"]/table/tbody/tr[' + str(index) + ']/td[6]/input').click()
+    time.sleep(0.2)
     window_after = browser.window_handles[1] #獲取彈出視窗資訊
     browser.switch_to_window(window_after) #焦點切換到彈出視窗
 
@@ -151,7 +152,7 @@ if __name__ == '__main__':
     #以下兩行則一開啟使用
 
     # year_range_list, stock_Id_TWSE_Dictionaryed = init(dir = 'Listed-company', filename = 'information.txt')#清單批次抓取
-    year_range_list, stock_Id_TWSE_Dictionaryed = init(company_name = '聯電',company_id = 2303,for_one_company = True)#單一公司抓取
+    year_range_list, stock_Id_TWSE_Dictionaryed = init(company_name = '富邦金',company_id = 2881,for_one_company = True)#單一公司抓取 
 
     get_year_message()
     driver_close(browser)
