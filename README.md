@@ -84,7 +84,7 @@ year_range_list, stock_Id_TWSE_Dictionaryed = init(dir = 'Listed-company', filen
 
 3. 151行若設定for_one_company選項為True，功能為抓取單一公司，需給予 ```company_name(公司名稱，中英皆可)``` 與 ```company_id(股票代碼)``` 參數
 ```python
-year_range_list, stock_Id_TWSE_Dictionaryed = init(company_name = '聯電',company_id = 2303,for_one_company = True)
+year_range_list, stock_Id_TWSE_Dictionaryed = init(company_name = '聯電',company_id = '2303',for_one_company = True)
 ```
 
 4. ```2.、3.``` 擇一使用即可
