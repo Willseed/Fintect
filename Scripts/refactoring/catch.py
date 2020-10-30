@@ -9,8 +9,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 
 
-def init(dir: str = None, filename: str = None,company_name: str = None,company_id: int = None,for_one_company = False):
-    year_list = [i for i in range(90, 108)]
+def init(dir: str = None, filename: str = None,company_name: str = None,company_id: str = None,for_one_company = False):
+    year_list = [i for i in range(105, 108)]
     if(not for_one_company): 
         print('清單抓取開始')
         if(dir != None and filename != None):
@@ -152,7 +152,7 @@ if __name__ == '__main__':
     #以下兩行則一開啟使用
 
     # year_range_list, stock_Id_TWSE_Dictionaryed = init(dir = 'Listed-company', filename = 'information.txt')#清單批次抓取
-    year_range_list, stock_Id_TWSE_Dictionaryed = init(company_name = '富邦金',company_id = 2881,for_one_company = True)#單一公司抓取 
+    year_range_list, stock_Id_TWSE_Dictionaryed = init(company_name = '兆豐金',company_id = '2886',for_one_company = True)#單一公司抓取 
 
     get_year_message()
     driver_close(browser)
