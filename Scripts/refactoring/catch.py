@@ -10,7 +10,7 @@ from selenium.webdriver.support import expected_conditions as ec
 
 
 def init(dir: str = None, filename: str = None,company_name: str = None,company_id: str = None,for_one_company = False):
-    year_list = [i for i in range(105, 108)]
+    year_list = [i for i in range(110, 111)]
     if(not for_one_company): 
         print('清單抓取開始')
         if(dir != None and filename != None):
@@ -82,18 +82,21 @@ def get_data():
         col_path = browser.find_elements_by_xpath(table_path + '/tr') #欄位置
         for i in range(1, len(col_path) + 1):
             row_path = browser.find_elements_by_xpath(table_path + '/tr[' + str(i) + ']/td') #列位置
+            print('%s%s' % ('\n', '-' * 50))
             for j in range(1, len(row_path) + 1):
                 if not (j % 2 == 0):
-                    title = browser.find_element_by_xpath(table_path + '/tr[' + str(i) + ']/td[' + str(j) + ']').text #標題
+                    title = browser.find_element_by_xpath(table_path + '/tr[' + str(i) + ']/td[' + str(j) + ']').text # 標題
+                    print('title = %s' % title)
                     l_title.append(title)
                 elif(i == len(col_path) and j == len(row_path)):
-                    content = browser.find_element_by_xpath(table_path + '/tr[' + str(i) + ']/td[' + str(j) + ']').text.split('\n') #說明部分切割成List
-                    for k in content:
-                        k.lstrip().rstrip()
+                    content = browser.find_element_by_xpath(table_path + '/tr[' + str(i) + ']/td[' + str(j) + ']').text # 說明部分切割成List
+                    print('content 1 = %s' % content)
                     l_content.append(content)
                 else:
-                    content = browser.find_element_by_xpath(table_path + '/tr[' + str(i) + ']/td[' + str(j) + ']').text.lstrip().rstrip() #內容 去左右空白
+                    content = browser.find_element_by_xpath(table_path + '/tr[' + str(i) + ']/td[' + str(j) + ']').text.lstrip().rstrip() # 內容 去左右空白
+                    print('content 2 = %s' % content)
                     l_content.append(content)
+            print('%s' % ('=' * 50))
         return ListToDict(len(l_title), l_title, l_content)
     except:
         print('Get Data Error!')
@@ -132,7 +135,7 @@ def get_year_message():
                                 # print(d_details)
                                 BackToSourceWindow(window_before)
                         #=========================
-                        with open(path+'/'+company+'('+str(stock_Id_TWSE_Dictionaryed[company])+')-'+ str(j)+'-'+str(k - 1)+'.log', 'w') as f:
+                        with open(path+'/'+company+'('+str(stock_Id_TWSE_Dictionaryed[company])+')-'+ str(j)+'-'+str(k - 1)+'.log', 'w', encoding='utf-8') as f:
                                 f.writelines(json.dumps(d_details, ensure_ascii=False)+'\n')
                         time.sleep(2) #等待2s 再次搜尋下一年
                         #===========================    
@@ -152,7 +155,7 @@ if __name__ == '__main__':
     #以下兩行則一開啟使用
 
     # year_range_list, stock_Id_TWSE_Dictionaryed = init(dir = 'Listed-company', filename = 'information.txt')#清單批次抓取
-    year_range_list, stock_Id_TWSE_Dictionaryed = init(company_name = '兆豐金', company_id = '2886', for_one_company = True)#單一公司抓取 
+    year_range_list, stock_Id_TWSE_Dictionaryed = init(company_name = '台積電', company_id = '2330', for_one_company = True)#單一公司抓取 
 
     get_year_message()
     driver_close(browser)
