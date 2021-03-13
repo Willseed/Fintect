@@ -133,7 +133,7 @@ def get_year_message():
                                 BackToSourceWindow(window_before)
                         #=========================
                         with open(path+'/'+company+'('+str(stock_Id_TWSE_Dictionaryed[company])+')-'+ str(j)+'-'+str(k - 1)+'.log', 'w') as f:
-                                f.writelines(json.dumps(d_details)+'\n')
+                                f.writelines(json.dumps(d_details, ensure_ascii=False)+'\n')
                         time.sleep(2) #等待2s 再次搜尋下一年
                         #===========================    
                 else:
@@ -152,7 +152,7 @@ if __name__ == '__main__':
     #以下兩行則一開啟使用
 
     # year_range_list, stock_Id_TWSE_Dictionaryed = init(dir = 'Listed-company', filename = 'information.txt')#清單批次抓取
-    year_range_list, stock_Id_TWSE_Dictionaryed = init(company_name = '兆豐金',company_id = '2886',for_one_company = True)#單一公司抓取 
+    year_range_list, stock_Id_TWSE_Dictionaryed = init(company_name = '兆豐金', company_id = '2886', for_one_company = True)#單一公司抓取 
 
     get_year_message()
     driver_close(browser)
