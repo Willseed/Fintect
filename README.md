@@ -5,7 +5,8 @@
 | 軟體名稱 | 下載連結 |
 | --- | --- |
 | Visual Studio Code | [Visual Studio Code] |
-| Python 3.6.8 | [Python 3.6.8] |
+| uv | [uv] |
+| Python 3.14 | 由 uv 自動安裝（目前鎖定 3.14.7） |
 
 > 以上軟體都下載最新版本即可
 ---
@@ -22,51 +23,61 @@
 9. 點選 <完成> 打開 Visual Studio Code
 ---
 
-### Python 3.6.8 安裝流程
+### uv 與 Python 3.14 安裝流程
 
-1. 將 ```Add Python 3.6 To PATH``` 打勾
-2. 點選 \<Install Now\>
-3. **若有跳出需要管理員權限，點選<是>**
+本專案使用 [uv] 管理 Python 版本與套件。請先安裝最新版 uv，再於專案目錄同步環境。
 
-安裝完成後 ```⊞Win鍵``` + ```R鍵```打開執行視窗輸入```cmd```打開命令提示字元。
+macOS / Linux：
 
-打開命令提示字元後，輸入```python``` 若出現以下畫面即為安裝成功
+```sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Windows（PowerShell）：
+
+```powershell
+powershell -ExecutionPolicy Bypass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+安裝完成後，於專案根目錄執行：
+
 ```cmd
-Python 3.6.8 (tags/v3.6.8:3c6b436a57, Dec 24 2018, 00:16:47) [MSC v.1916 64 bit (AMD64)] on win32
-Type "help", "copyright", "credits" or "license" for more information.
->>>
+uv sync
+```
+
+`uv sync` 會依 `.python-version` 自動安裝 Python 3.14，並依 `uv.lock` 安裝已鎖定的套件版本。
+
+驗證 Python 版本：
+
+```cmd
+uv run python --version
+```
+
+預期輸出類似：
+
+```cmd
+Python 3.14.7
 ```
 ---
 
-## Python模組安裝
-### 檢查pip版本是否為最新
----
-輸入指令
+## Python 模組安裝
+
+專案依賴由 `pyproject.toml` 與 `uv.lock` 管理。請使用 uv，不要再用 pip 逐一套件安裝。
 
 ```cmd
-pip list
+uv sync
 ```
 
-若出現 WARNING
+若只需執行環境、不含開發工具（pylint、isort）：
 
 ```cmd
-Package    Version
----------- -------
-pip        18.1
-setuptools 41.2.0
-WARNING: You are using pip version 18.1, however version 20.1.1 is available.
-You should consider upgrading via the 'python -m pip install --upgrade pip' command.
+uv sync --no-dev
 ```
 
-請執行以下指令進行更新
+執行腳本範例：
 
 ```cmd
-python -m pip install --upgrade pip
-```
-
-安裝相關模組
-```cmd
-pip install selenium
+uv run python Scripts/refactoring/catch.py
 ```
 
 ## 選項設定說明
@@ -94,6 +105,6 @@ License
 MIT
 
    [Visual Studio Code]: <https://code.visualstudio.com/>
-   [Python 3.6.8]: <https://www.python.org/ftp/python/3.6.8/python-3.6.8-amd64.exe>
+   [uv]: <https://docs.astral.sh/uv/getting-started/installation/>
    [Tortoisegit]: <https://tortoisegit.org/>
    [Git]: <https://gitforwindows.org/>
