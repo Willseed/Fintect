@@ -9,9 +9,7 @@ authors = [
 requires-python = ">=3.14"
 dependencies = [
     "openpyxl>=3.1.5",
-    "requests>=2.34.2",
-    "selenium>=4.48.0",
-    "pywin32>=312 ; sys_platform == 'win32'",
+    "playwright>=1.62.0",
 ]
 
 [dependency-groups]

@@ -2,11 +2,7 @@ import time
 import json
 import os
 
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
+from playwright.sync_api import sync_playwright
 
 
 def init(dir: str = None, filename: str = None,company_name: str = None,company_id: str = None,for_one_company = False):
@@ -32,36 +28,55 @@ def init(dir: str = None, filename: str = None,company_name: str = None,company_
             exit()
     return year_list, twse_dictionary
 
-def driver_open():
-    options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
-    browser = webdriver.Chrome(options=options)
-    browser.get('http://mops.twse.com.tw/mops/web/t05st01')
-    return browser
+playwright_runtime = None
+browser = None
+page = None
+popup = None
 
-def driver_close(browser):
-    browser.quit()
+def current_page():
+    return popup if popup is not None else page
+
+def driver_open():
+    global playwright_runtime, browser, page, popup
+    playwright_runtime = sync_playwright().start()
+    browser = playwright_runtime.chromium.launch(headless=True)
+    page = browser.new_page()
+    popup = None
+    page.goto('https://mopsov.twse.com.tw/mops/web/t05st01')
+    return page
+
+def driver_close(browser_arg=None):
+    global playwright_runtime, browser, page, popup
+    if browser is not None:
+        browser.close()
+    if playwright_runtime is not None:
+        playwright_runtime.stop()
+    playwright_runtime = None
+    browser = None
+    page = None
+    popup = None
     print('瀏覽器已關閉')
 
 def input_text(index, xpath):
-    inputbox = browser.find_element(By.XPATH, xpath)
-    inputbox.clear()
-    inputbox.send_keys(str(index) + Keys.RETURN)
+    inputbox = page.locator('xpath=' + xpath)
+    inputbox.fill(str(index))
+    inputbox.press('Enter')
 
 def ChangeToPopUpWindow(index):
-    browser.find_element(By.XPATH, '//*[@id="t05st01_fm"]/table/tbody/tr[' + str(index) + ']/td[6]/input').click()
-    time.sleep(0.2)
-    window_after = browser.window_handles[1] #獲取彈出視窗資訊
-    browser.switch_to.window(window_after) #焦點切換到彈出視窗
+    global popup
+    with page.expect_popup() as popup_info:
+        page.locator('xpath=//*[@id="t05st01_fm"]/table/tbody/tr[' + str(index) + ']/td[6]/input').click()
+    popup = popup_info.value
 
 def BackToSourceWindow(window_before):
-    browser.close() #關閉彈出視窗
-    browser.switch_to.window(window_before) #將焦點切回原先視窗
+    global popup
+    if popup is not None:
+        popup.close()
+        popup = None
 
 def WebWaitXpath(xpath):
     try:
-        wait = WebDriverWait(browser, 10)
-        wait.until(ec.visibility_of_element_located((By.XPATH, xpath)))
+        current_page().locator('xpath=' + xpath).first.wait_for(state='visible', timeout=10000)
         return True
     except Exception as e:
         print(e)
@@ -75,25 +90,27 @@ def ListToDict(length, l_title, l_content):
 def get_data():
     try:
         time.sleep(10) #等待5s 再次點擊
-        WebWaitXpath('//*[@id="table01"]/table[2]/tbody/tr[1]/td/b') #等待元件讀取
+        WebWaitXpath('//*[@id="table01"]//table[contains(@class,"hasBorder")]') #等待元件讀取
         l_title = []
         l_content = []
-        table_path = '//*[@id="table01"]/table[3]/tbody'
-        col_path = browser.find_elements(By.XPATH, table_path + '/tr') #欄位置
-        for i in range(1, len(col_path) + 1):
-            row_path = browser.find_elements(By.XPATH, table_path + '/tr[' + str(i) + ']/td') #列位置
+        table_path = '//*[@id="table01"]//table[contains(@class,"hasBorder")]/tbody'
+        target = current_page()
+        col_path = target.locator('xpath=' + table_path + '/tr') #欄位置
+        for i in range(1, col_path.count() + 1):
+            row_path = target.locator('xpath=' + table_path + '/tr[' + str(i) + ']/td') #列位置
             print('%s%s' % ('\n', '-' * 50))
-            for j in range(1, len(row_path) + 1):
+            for j in range(1, row_path.count() + 1):
+                cell = target.locator('xpath=' + table_path + '/tr[' + str(i) + ']/td[' + str(j) + ']')
                 if not (j % 2 == 0):
-                    title = browser.find_element(By.XPATH, table_path + '/tr[' + str(i) + ']/td[' + str(j) + ']').text # 標題
+                    title = cell.inner_text() # 標題
                     print('title = %s' % title)
                     l_title.append(title)
-                elif(i == len(col_path) and j == len(row_path)):
-                    content = browser.find_element(By.XPATH, table_path + '/tr[' + str(i) + ']/td[' + str(j) + ']').text # 說明部分切割成List
+                elif(i == col_path.count() and j == row_path.count()):
+                    content = cell.inner_text() # 說明部分切割成List
                     print('content 1 = %s' % content)
                     l_content.append(content)
                 else:
-                    content = browser.find_element(By.XPATH, table_path + '/tr[' + str(i) + ']/td[' + str(j) + ']').text.lstrip().rstrip() # 內容 去左右空白
+                    content = cell.inner_text().lstrip().rstrip() # 內容 去左右空白
                     print('content 2 = %s' % content)
                     l_content.append(content)
             print('%s' % ('=' * 50))
@@ -112,15 +129,15 @@ def get_year_message():
         for j in year_range_list:
             input_text(j, '//*[@id="year"]') #年度
             print('id: %s\tyear: %s' % (stock_Id_TWSE_Dictionaryed[company], j))
-            btn_search = browser.find_element(By.XPATH, "//input[@type='button' and @value=' 查詢 ']") #查詢按鈕
+            btn_search = page.locator("xpath=//input[@type='button' and @value=' 查詢 ']") #查詢按鈕
             btn_search.click()
             time.sleep(3) #等待3s
             again = True
             while(again):
                 if(WebWaitXpath('//*[@id="t05st01_fm"]/table/tbody/tr[2]/td[3]')): #等待元件讀取
                     again = False
-                    window_before = browser.window_handles[0] #獲取來源網頁資訊
-                    btn_details = browser.find_elements(By.XPATH, '//*[@id="t05st01_fm"]/table/tbody/tr') #詳細資料按鈕
+                    window_before = page #獲取來源網頁資訊
+                    btn_details = page.locator('xpath=//*[@id="t05st01_fm"]/table/tbody/tr').all() #詳細資料按鈕
                     for k in range(2, len(btn_details) + 1): #迭代每則重大消息按鈕 
                         print('第' + str(k - 1) + '個按鈕')
                         again_data = True
@@ -140,17 +157,17 @@ def get_year_message():
                         time.sleep(2) #等待2s 再次搜尋下一年
                         #===========================    
                 else:
-                    if (browser.find_elements(By.XPATH, '//*[@id="table01"]/center/h3')):
+                    if (page.locator('xpath=//*[@id="table01"]/center/h3').count()):
                         print('該 %s 公開發行公司不繼續公開發行！' % company)
                         break
                     else:
                         time.sleep(10) #等待10s
-                        browser.refresh() #刷新網頁
+                        page.reload() #刷新網頁
 
 
 
 if __name__ == '__main__':
-    browser = driver_open()
+    driver_open()
 
     #以下兩行則一開啟使用
 

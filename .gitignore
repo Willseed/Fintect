@@ -180,6 +180,3 @@ pip.exe
 isort.exe
 epylint.exe
 easy_install-3.8.exe
-chromedriver.exe
-chromedriver_win32.zip
-mapping.json

@@ -43,9 +43,10 @@ powershell -ExecutionPolicy Bypass -c "irm https://astral.sh/uv/install.ps1 | ie
 
 ```cmd
 uv sync
+uv run playwright install chromium
 ```
 
-`uv sync` 會依 `.python-version` 自動安裝 Python 3.14，並依 `uv.lock` 安裝已鎖定的套件版本。
+`uv sync` 會依 `.python-version` 自動安裝 Python 3.14，並依 `uv.lock` 安裝已鎖定的套件版本。`playwright install chromium` 會下載 Playwright 所需的 Chromium 瀏覽器。
 
 驗證 Python 版本：
 
@@ -66,12 +67,14 @@ Python 3.14.7
 
 ```cmd
 uv sync
+uv run playwright install chromium
 ```
 
 若只需執行環境、不含開發工具（pylint、isort）：
 
 ```cmd
 uv sync --no-dev
+uv run playwright install chromium
 ```
 
 執行腳本範例：
@@ -79,6 +82,8 @@ uv sync --no-dev
 ```cmd
 uv run python Scripts/refactoring/catch.py
 ```
+
+公開資訊觀測站新版網站（`mops.twse.com.tw`）已改為 SPA。本爬蟲改抓仍提供舊版頁面的 `https://mopsov.twse.com.tw/mops/web/t05st01`。
 
 ## 選項設定說明
 ---
